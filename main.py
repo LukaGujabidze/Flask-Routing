@@ -1,24 +1,21 @@
-from flask import Flask,render_template,request,url_for,redirect,flash
-
+from unicodedata import name
+from flask import Flask, render_template, request
 app = Flask(__name__)
 
 @app.route('/')
-def index():
-    global name
-    global last_nm
-    global age
+def student():
+   return render_template('student.html')
 
-    if request.method == 'POST':
-        req = request.form
-        name = req.get('name')
-        last_nm = req.get('last_nm')
-        age = req.get('age')
-    return render_template('index.html')
 
-@app.route('/home')
-def home():
-    return render_template('home.html', name=name, last_nm=last_nm, age=age)
+@app.route('/result',methods = ['POST', 'GET'])
+def result():
+   if request.method == 'POST':
+      result = request.form
+      name = result.get('Name')
+      last_nm = result.get('last-nm')
+      age = result.get('num')
+      return render_template("result.html",name = name, last_name = last_nm, age=age)
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
+   app.run(debug = True)
